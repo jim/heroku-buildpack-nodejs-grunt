@@ -1,3 +1,8 @@
+You probably don't want to use this fork.
+-----------------------------------------
+
+Use the [upstream one](https://github.com/mbuchetics/heroku-buildpack-nodejs-grunt) instead.
+
 Heroku buildpack: Node.js with grunt support
 ============================================
 
