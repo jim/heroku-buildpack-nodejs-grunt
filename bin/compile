@@ -9,6 +9,8 @@ build_dir=$1/ember
 cache_dir=$2
 env_dir=$3
 
+bower_components_dir=$1/ember/bower_components
+
 bp_dir=$(cd $(dirname $0); cd ..; pwd)
 
 # Load some convenience functions like status(), echo(), and indent()
@@ -75,6 +77,11 @@ elif test -d $cache_dir/node/node_modules; then
 
 fi
 
+if test -d $cache_dir/bower/bower_components; then
+  status "Restoring bower_components directory from cache"
+  cp -r $cache_dir/bower/bower_components $build_dir/
+fi
+
 # Handle npm's new cert bug
 # http://blog.npmjs.org/post/78085451721/npms-self-signed-certificate-is-no-more
 if [ ! -f "$build_dir/.npmrc" ]; then
@@ -110,6 +117,13 @@ mkdir -p $cache_dir/node
 if test -d $build_dir/node_modules; then
   status "Caching node_modules directory for future builds"
   cp -r $build_dir/node_modules $cache_dir/node
+fi
+
+# If app has a bower_components directory, cache it.
+if test -d $bower_components_dir; then
+  mkdir -p $cache_dir/bower
+  status "Caching bower_components directory for future builds"
+  cp -r $bower_components_dir $cache_dir/bower
 fi
 
 # Copy goodies to the cache
